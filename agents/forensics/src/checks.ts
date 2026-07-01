@@ -108,10 +108,28 @@ export async function runForensics(
   const findings: Finding[] = [];
   const explorerCite = cite('BaseScan', addressUrl(addr)!);
 
-  // 1) Contract vs EOA.
+  // 1) Contract vs EOA (incl. EIP-7702 delegated EOAs).
   const code = await provider.getCode(addr);
-  const isContract = code !== '0x' && code.length > 2;
+  const lowerCode = code.toLowerCase();
+  // EIP-7702: an EOA that has delegated its code to an implementation contract
+  // carries a 23-byte designator: 0xef0100 || <20-byte delegate address>.
+  const isDelegatedEoa = lowerCode.startsWith('0xef0100') && lowerCode.length === 48;
+  const isContract = code !== '0x' && code.length > 2 && !isDelegatedEoa;
   const data: ForensicsData = { address: addr, isContract, findings, confidence: 0.9 };
+
+  if (isDelegatedEoa) {
+    const delegate = ethers.getAddress('0x' + lowerCode.slice(8, 48));
+    findings.push({
+      code: 'delegated_eoa_7702',
+      title: 'Wallet delegates its code (EIP-7702)',
+      severity: 'medium',
+      detail:
+        `This is a wallet that has delegated control to another contract (${delegate}) via EIP-7702. ` +
+        `Legitimate smart-wallets do this, but malicious delegations are a wallet-drainer technique — verify the delegate before trusting it.`,
+      citations: [cite('Delegate contract', addressUrl(delegate)!)],
+    });
+    return data; // token/owner semantics don't apply to a delegated EOA
+  }
 
   if (!isContract) {
     findings.push({
