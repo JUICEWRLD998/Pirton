@@ -8,7 +8,6 @@ import {
   txUrl,
   verdictLabel,
   type ReceiptEntry,
-  type SpecialistId,
 } from '@pirton/shared';
 
 /**
@@ -138,6 +137,3 @@ main().catch((err) => {
   console.error('[orchestrator] fatal:', err?.message ?? err);
   process.exit(1);
 });
-
-// Keep the SpecialistId import meaningful for future strictness.
-export type _Routed = { specialist: SpecialistId; serviceId: string };
