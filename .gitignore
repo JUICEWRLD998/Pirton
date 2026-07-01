@@ -1,0 +1,28 @@
+# deps
+node_modules/
+**/node_modules/
+
+# build output
+dist/
+**/dist/
+.next/
+out/
+
+# env / secrets — NEVER commit SDK keys or wallet keys
+.env
+.env.local
+.env.*.local
+**/.env
+!**/.env.example
+
+# logs
+*.log
+npm-debug.log*
+
+# os / editor
+.DS_Store
+Thumbs.db
+
+# vendored reference SDK deps (keep source, drop its node_modules/dist)
+vendor/node-sdk/node_modules/
+vendor/node-sdk/dist/
