@@ -1,0 +1,32 @@
+{
+  "name": "pirton",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pirton — the immune system for the agent economy. A CROO CAP multi-agent scam shield.",
+  "license": "MIT",
+  "workspaces": [
+    "vendor/node-sdk",
+    "packages/*",
+    "agents/*"
+  ],
+  "scripts": {
+    "build:sdk": "npm run build -w @croo-network/sdk",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "smoke:keys": "tsx agents/orchestrator/src/smoke.ts",
+    "forensics:selftest": "tsx agents/forensics/src/selftest.ts",
+    "forensics:serve": "tsx agents/forensics/src/index.ts",
+    "orchestrate": "tsx agents/orchestrator/src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

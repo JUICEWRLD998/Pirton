@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["ES2022"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "sourceMap": false,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@croo-network/sdk": ["vendor/node-sdk/src"],
+      "@pirton/shared": ["packages/shared/src"],
+      "@pirton/shared/*": ["packages/shared/src/*"],
+      "@pirton/agent-core": ["packages/agent-core/src"],
+      "@pirton/agent-core/*": ["packages/agent-core/src/*"]
+    }
+  },
+  "include": [
+    "packages/*/src/**/*.ts",
+    "agents/*/src/**/*.ts"
+  ],
+  "exclude": ["node_modules", "**/dist", "vendor"]
+}
