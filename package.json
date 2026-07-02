@@ -7,7 +7,8 @@
   "workspaces": [
     "vendor/node-sdk",
     "packages/*",
-    "agents/*"
+    "agents/*",
+    "apps/*"
   ],
   "scripts": {
     "build:sdk": "npm run build -w @croo-network/sdk",

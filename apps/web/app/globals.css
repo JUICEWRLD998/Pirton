@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Verdict-driven accent — remapped at runtime on the console root. */
+  --accent: 45 225 255; /* cyan idle */
+  --accent-soft: 94 234 212;
+  --duration-normal: 260ms;
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink-950 text-slate-200 antialiased;
+  background-image:
+    radial-gradient(1200px 700px at 50% -10%, rgba(56, 225, 255, 0.08), transparent 60%),
+    radial-gradient(900px 600px at 85% 20%, rgba(45, 212, 191, 0.06), transparent 55%);
+  min-height: 100vh;
+  font-feature-settings: "cv11", "ss01";
+}
+
+/* Verdict theming: set data-verdict on the console root to remap the accent. */
+[data-verdict="safe"] {
+  --accent: 45 212 191;
+  --accent-soft: 94 234 212;
+}
+[data-verdict="caution"] {
+  --accent: 245 177 76;
+  --accent-soft: 252 211 77;
+}
+[data-verdict="likely_scam"] {
+  --accent: 244 82 59;
+  --accent-soft: 251 113 133;
+}
+
+@layer components {
+  .glass {
+    background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.02) 45%,
+      rgba(255, 255, 255, 0.008)
+    );
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .glass-accent {
+    border-color: rgb(var(--accent) / 0.35);
+    box-shadow: 0 0 0 1px rgb(var(--accent) / 0.18), 0 0 44px rgb(var(--accent) / 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .accent-text {
+    color: rgb(var(--accent));
+  }
+  .mono {
+    @apply font-mono tracking-tight;
+  }
+  /* Animated conic border used on active agent cards. */
+  .border-beam {
+    position: relative;
+  }
+  .border-beam::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--angle, 0deg),
+      transparent 0%,
+      rgb(var(--accent) / 0.9) 12%,
+      transparent 28%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: border-spin 3s linear infinite;
+  }
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes border-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* Custom scrollbar for the console feel. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+  background-clip: content-box;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
