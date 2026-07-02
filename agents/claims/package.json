@@ -1,0 +1,11 @@
+{
+  "name": "@pirton/claims",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "dependencies": {
+    "@croo-network/sdk": "*",
+    "@pirton/agent-core": "*",
+    "@pirton/shared": "*"
+  }
+}
