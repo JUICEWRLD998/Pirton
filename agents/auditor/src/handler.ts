@@ -202,8 +202,18 @@ async function auditWithLlm(address: string, src: VerifiedSource): Promise<Findi
     source,
   ].join('\n');
 
-  const out = await chat(prompt, { tier: 'strong', json: true, temperature: 0, maxTokens: 900 });
-  const parsed = parseJsonLoose<{ findings?: unknown }>(out);
+  // Strong tier (gemini-2.5-pro, plan §2.5) is a reasoning model and intermittently
+  // returns EMPTY content via OpenRouter when its reasoning eats the token budget —
+  // which silently no-ops the audit. Try strong first (with generous headroom), then
+  // fall back once to the fast, non-reasoning model, which reliably emits the JSON.
+  let parsed = parseJsonLoose<{ findings?: unknown }>(
+    await chat(prompt, { tier: 'strong', json: true, temperature: 0, maxTokens: 2400 })
+  );
+  if (!parsed || !Array.isArray(parsed.findings)) {
+    parsed = parseJsonLoose<{ findings?: unknown }>(
+      await chat(prompt, { tier: 'fast', json: true, temperature: 0, maxTokens: 1200 })
+    );
+  }
   if (!parsed || !Array.isArray(parsed.findings)) return null;
 
   const findings: Finding[] = [];
