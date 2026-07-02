@@ -15,6 +15,12 @@
     "smoke:keys": "tsx agents/orchestrator/src/smoke.ts",
     "forensics:selftest": "tsx agents/forensics/src/selftest.ts",
     "forensics:serve": "tsx agents/forensics/src/index.ts",
+    "auditor:selftest": "tsx agents/auditor/src/selftest.ts",
+    "auditor:serve": "tsx agents/auditor/src/index.ts",
+    "reputation:selftest": "tsx agents/reputation/src/selftest.ts",
+    "reputation:serve": "tsx agents/reputation/src/index.ts",
+    "claims:selftest": "tsx agents/claims/src/selftest.ts",
+    "claims:serve": "tsx agents/claims/src/index.ts",
     "orchestrate": "tsx agents/orchestrator/src/index.ts"
   },
   "devDependencies": {
