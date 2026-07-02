@@ -22,7 +22,11 @@
     "reputation:serve": "tsx agents/reputation/src/index.ts",
     "claims:selftest": "tsx agents/claims/src/selftest.ts",
     "claims:serve": "tsx agents/claims/src/index.ts",
-    "orchestrate": "tsx agents/orchestrator/src/index.ts"
+    "orchestrate": "tsx agents/orchestrator/src/index.ts",
+    "orchestrate:serve": "tsx agents/orchestrator/src/server.ts",
+    "web:dev": "npm run dev -w @pirton/web",
+    "web:build": "npm run build -w @pirton/web",
+    "web:start": "npm run start -w @pirton/web"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
