@@ -53,29 +53,34 @@ export function AgentsShowcase() {
             <motion.div
               key={id}
               variants={reveal}
-              className="card-grad group h-full p-5 transition-transform duration-300 hover:-translate-y-1"
+              className="card-grad group relative h-full overflow-hidden p-6 transition-transform duration-300 hover:-translate-y-1.5"
             >
-              <div className="flex items-center justify-between">
+              {/* per-agent color glow */}
+              <div
+                className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-40 blur-3xl transition-opacity duration-300 group-hover:opacity-70"
+                style={{ background: `radial-gradient(circle, ${look.hue}, transparent 65%)` }}
+              />
+              <div className="relative flex items-center justify-between">
                 <div
-                  className="flex h-11 w-11 items-center justify-center rounded-xl ring-1"
+                  className="flex h-12 w-12 items-center justify-center rounded-2xl ring-1"
                   style={{
-                    background: `${look.hue}1f`,
+                    background: `${look.hue}26`,
                     color: look.hue,
-                    boxShadow: `inset 0 0 0 1px ${look.hue}33`,
+                    boxShadow: `inset 0 0 0 1px ${look.hue}40, 0 10px 28px -12px ${look.hue}`,
                   }}
                 >
-                  <look.icon size={20} strokeWidth={1.9} />
+                  <look.icon size={22} strokeWidth={2} />
                 </div>
                 <span
-                  className="font-mono text-[11px] font-semibold tracking-wider"
-                  style={{ color: `${look.hue}` }}
+                  className="rounded-full px-2 py-0.5 font-mono text-[11px] font-bold tracking-wider"
+                  style={{ color: look.hue, background: `${look.hue}1a` }}
                 >
                   {a.monogram}
                 </span>
               </div>
-              <h3 className="mt-4 text-sm font-semibold text-white">{a.name}</h3>
-              <p className="mt-0.5 font-mono text-[11px] text-slate-500">{a.role}</p>
-              <p className="mt-2.5 text-[13px] leading-relaxed text-slate-400">{a.blurb}</p>
+              <h3 className="relative mt-5 text-base font-semibold text-white">{a.name}</h3>
+              <p className="relative mt-0.5 font-mono text-[11px] text-slate-500">{a.role}</p>
+              <p className="relative mt-3 text-[13px] leading-relaxed text-slate-400">{a.blurb}</p>
             </motion.div>
           );
         })}

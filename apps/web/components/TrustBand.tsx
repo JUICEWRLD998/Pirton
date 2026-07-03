@@ -62,10 +62,10 @@ export function TrustBand() {
         >
           {SIGNALS.map((s) => (
             <motion.div key={s.title} variants={reveal}>
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-white/[0.03] text-brand-300">
-                <s.icon size={18} strokeWidth={1.9} />
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-500/15 text-brand-200 ring-1 ring-brand-400/30 shadow-[0_8px_28px_-10px_rgba(124,58,237,0.7)]">
+                <s.icon size={20} strokeWidth={2} />
               </div>
-              <h3 className="mt-4 text-sm font-semibold text-white">{s.title}</h3>
+              <h3 className="mt-5 text-base font-semibold text-white">{s.title}</h3>
               <p className="mt-2 text-[13px] leading-relaxed text-slate-400">{s.body}</p>
             </motion.div>
           ))}

@@ -23,7 +23,7 @@ body {
      gradient hairline gives it a lit, premium edge. */
   .card {
     @apply relative rounded-2xl border border-line shadow-card;
-    background: linear-gradient(180deg, rgba(46,78,160,0.22), rgba(30,52,120,0.16));
+    background: linear-gradient(180deg, rgba(120,70,190,0.22), rgba(78,44,140,0.16));
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
   }
@@ -32,7 +32,7 @@ body {
      pseudo-element so the fill stays glassy while only the 1px edge glows. */
   .card-grad {
     @apply relative rounded-2xl shadow-card;
-    background: linear-gradient(180deg, rgba(46,78,160,0.22), rgba(30,52,120,0.16));
+    background: linear-gradient(180deg, rgba(120,70,190,0.22), rgba(78,44,140,0.16));
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
   }

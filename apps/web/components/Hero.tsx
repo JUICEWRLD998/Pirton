@@ -2,21 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, CornerDownLeft, ShieldCheck, Coins, FileCheck2 } from "lucide-react";
-import { EXAMPLES } from "@/lib/demo";
+import { Search, CornerDownLeft } from "lucide-react";
 import { riseIn, stagger } from "@/lib/motion";
 
 interface Props {
   onScan: (input: string) => void;
 }
 
-const TRUST = [
-  { icon: ShieldCheck, label: "4 specialist agents" },
-  { icon: Coins, label: "USDC-settled on Base" },
-  { icon: FileCheck2, label: "Signed Trust Receipt" },
-];
-
-/** Hero — the scam-check tool front and center, with the live swarm alongside. */
+/** Hero — the scam-check tool, front and center. */
 export function Hero({ onScan }: Props) {
   const [value, setValue] = useState("");
 
@@ -82,31 +75,6 @@ export function Hero({ onScan }: Props) {
                 </button>
               </div>
             </div>
-
-            {/* Example chips */}
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-              <span className="text-xs text-slate-500">Try:</span>
-              {EXAMPLES.map((ex) => (
-                <button
-                  key={ex.label}
-                  onClick={() => onScan(ex.value)}
-                  title={ex.hint}
-                  className="inline-flex min-h-9 items-center rounded-full border border-line bg-white/[0.03] px-3.5 py-1.5 text-xs text-slate-300 transition-colors hover:border-brand-400/50 hover:bg-brand-500/10 hover:text-white"
-                >
-                  {ex.label}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Trust row */}
-          <motion.div variants={riseIn} className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3">
-            {TRUST.map((t) => (
-              <div key={t.label} className="inline-flex items-center gap-2 text-[13px] text-slate-400">
-                <t.icon size={15} className="text-brand-300" />
-                {t.label}
-              </div>
-            ))}
           </motion.div>
         </motion.div>
       </div>

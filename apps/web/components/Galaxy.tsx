@@ -93,19 +93,23 @@ export function Galaxy() {
   }, []);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-bg">
-      {/* nebula clouds — blue spectrum */}
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      style={{ background: "linear-gradient(160deg, #1E0B44 0%, #160A33 45%, #0E0722 100%)" }}
+    >
+      {/* nebula clouds — violet / magenta spectrum */}
       <div
         className="absolute left-1/2 top-[-12%] h-[62rem] w-[62rem] -translate-x-1/2 rounded-full opacity-70 blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(59,102,241,0.24), transparent 60%)" }}
+        style={{ background: "radial-gradient(circle, rgba(147,89,247,0.30), transparent 60%)" }}
       />
       <div
-        className="absolute right-[-12%] top-[16%] h-[42rem] w-[42rem] rounded-full opacity-60 blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(56,140,248,0.18), transparent 60%)" }}
+        className="absolute right-[-12%] top-[16%] h-[42rem] w-[42rem] rounded-full opacity-65 blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(217,89,214,0.20), transparent 60%)" }}
       />
       <div
         className="absolute left-[-10%] top-[48%] h-[40rem] w-[40rem] rounded-full opacity-60 blur-3xl"
-        style={{ background: "radial-gradient(circle, rgba(37,99,235,0.16), transparent 60%)" }}
+        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.22), transparent 60%)" }}
       />
 
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
@@ -113,7 +117,7 @@ export function Galaxy() {
       {/* vignette — deepen edges, keep content legible */}
       <div
         className="absolute inset-0"
-        style={{ background: "radial-gradient(ellipse at 50% 0%, transparent 42%, rgba(6,12,32,0.7) 100%)" }}
+        style={{ background: "radial-gradient(ellipse at 50% 0%, transparent 42%, rgba(11,6,28,0.72) 100%)" }}
       />
     </div>
   );
