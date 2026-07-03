@@ -73,10 +73,7 @@ export default function Home() {
               className="container-x py-24 text-center"
             >
               <p className="text-danger">Something went wrong: {state.error}</p>
-              <button
-                onClick={reset}
-                className="mt-4 inline-flex h-11 items-center rounded-full border border-line px-5 text-sm text-slate-200 hover:text-white"
-              >
+              <button onClick={reset} className="btn-ghost mt-4 h-11 rounded-full px-5">
                 Try again
               </button>
             </motion.div>

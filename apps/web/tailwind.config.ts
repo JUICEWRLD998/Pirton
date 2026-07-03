@@ -16,16 +16,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Deep-space backgrounds.
+        // Deep violet backgrounds.
         bg: {
-          DEFAULT: "#05070E", // page
-          raised: "#0A0E1A", // solid fallback panels
-          soft: "#0C1020",
+          DEFAULT: "#160A33", // page — deep purple
+          raised: "#1E0F44", // solid fallback panels
+          soft: "#261452",
         },
         line: {
-          DEFAULT: "rgba(255,255,255,0.09)",
-          soft: "rgba(255,255,255,0.06)",
-          strong: "rgba(255,255,255,0.14)",
+          DEFAULT: "rgba(196,170,255,0.15)",
+          soft: "rgba(196,170,255,0.10)",
+          strong: "rgba(206,180,255,0.24)",
         },
         // Brand spectrum — indigo core.
         brand: {

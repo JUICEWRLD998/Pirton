@@ -32,7 +32,7 @@ export function AgentCard({ agent }: { agent: AgentState }) {
   return (
     <div
       className="card-grad p-4 transition-shadow duration-300"
-      style={working ? { boxShadow: `0 0 0 1px ${tone.dot}22, 0 14px 40px -18px ${tone.dot}55` } : undefined}
+      style={working ? { boxShadow: `0 0 0 1px ${tone.dot}33` } : undefined}
     >
       <div className="flex items-start gap-3">
         {/* monogram avatar */}

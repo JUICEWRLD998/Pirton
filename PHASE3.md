@@ -1,16 +1,22 @@
 # Phase 3 — Next.js UI + Trust Receipt
 
-> **UI revamp (latest):** the interface was rebuilt from the ground up as a
-> clean, professional **product page** — a real landing (sticky header · hero
-> with the paste tool · "how it works" 01/02/03 · the 4 agents · trust band ·
-> footer) that flows into the live scan → verdict → Trust Receipt. Theme is a
-> modern **dark "deep space"** look with a performant animated **galaxy**
-> starfield (`components/Galaxy.tsx`, canvas + reduced-motion fallback), one
-> indigo brand accent, monogram agent avatars, minimal `lucide-react` icons,
-> and mobile-first responsiveness. Semantic green/amber/red appear only on the
-> verdict. The data layer (SSE contract, `useScan`, `demo`, `route`) is
-> unchanged — this was a presentation rebuild. Design tokens live in
-> `tailwind.config.ts` + `app/globals.css`.
+> **UI revamp (latest):** the presentation layer was elevated to a premium,
+> "alive" **Living Security Console**. Type moved to **Space Grotesk** display +
+> Inter body + JetBrains Mono data. The flat single-indigo accent became a
+> living **indigo → violet → cyan brand spectrum**: gradient headline text,
+> aurora glows, gradient-hairline glass cards (`.card-grad`), a spectrum CTA,
+> and a cyan "signal" accent for live state. The hero now carries a signature
+> **canvas swarm constellation** (`components/SwarmCanvas.tsx`) — an
+> orchestrator hub with four orbiting specialists and pulses traveling the
+> connection beams (reduced-motion → static). Landing sections gained
+> scroll-reveal motion, per-agent iconography/hue, and connected step rails; the
+> live scan became a console panel; the verdict now reads on a **semicircular
+> arc gauge** (`components/RiskMeter.tsx`). Ambient **galaxy** starfield
+> (`components/Galaxy.tsx`) is retained behind everything. Semantic
+> green/amber/red still appear only on the verdict. The data layer (SSE
+> contract, `useScan`, `demo`, `route`) is unchanged — this was a presentation
+> revamp. Design tokens live in `tailwind.config.ts` + `app/globals.css`.
+> Verified: `next build` ✓, `tsc --noEmit` ✓ (161 kB first-load JS for `/`).
 
 
 

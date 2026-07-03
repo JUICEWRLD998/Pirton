@@ -5,7 +5,7 @@ import { animate, useReducedMotion } from "framer-motion";
 import type { Verdict } from "@/lib/types";
 import { VERDICT_META } from "@/lib/agents";
 
-/** Clean horizontal 0–100 risk meter with a marker + count-up number. */
+/** Semicircular 0–100 risk gauge with a gradient arc, marker, and count-up. */
 export function RiskMeter({ score, verdict }: { score: number; verdict: Verdict }) {
   const reduce = useReducedMotion();
   const [val, setVal] = useState(reduce ? score : 0);
@@ -17,46 +17,60 @@ export function RiskMeter({ score, verdict }: { score: number; verdict: Verdict 
       return;
     }
     const controls = animate(0, score, {
-      duration: 1.3,
-      delay: 0.15,
+      duration: 1.4,
+      delay: 0.2,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setVal(v),
     });
     return () => controls.stop();
   }, [score, reduce]);
 
-  return (
-    <div className="w-full">
-      <div className="flex items-end justify-between">
-        <span className="text-[11px] uppercase tracking-[0.18em] text-slate-500">Risk score</span>
-        <span className="mono text-3xl font-bold tabular-nums" style={{ color }}>
-          {Math.round(val)}
-          <span className="text-base font-medium text-slate-500">/100</span>
-        </span>
-      </div>
+  // Gauge geometry — top semicircle.
+  const cx = 100;
+  const cy = 100;
+  const r = 84;
+  const clamped = Math.max(0, Math.min(100, val));
+  const theta = Math.PI * (1 - clamped / 100); // 180° → 0°
+  const mx = cx + r * Math.cos(theta);
+  const my = cy - r * Math.sin(theta);
+  const arcPath = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`;
 
-      <div className="relative mt-3 h-2.5 w-full overflow-hidden rounded-full">
-        {/* gradient track (safe → caution → danger) */}
-        <div
-          className="absolute inset-0 rounded-full opacity-30"
-          style={{ background: "linear-gradient(90deg, #34D399, #FBBF24, #F87171)" }}
-        />
+  return (
+    <div className="flex w-full flex-col items-center">
+      <svg viewBox="0 0 200 116" className="w-full max-w-[240px]" role="img" aria-label={`Risk score ${Math.round(val)} of 100`}>
+        <defs>
+          <linearGradient id="risk-arc" x1="16" y1="0" x2="184" y2="0" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#34D399" />
+            <stop offset="0.5" stopColor="#FBBF24" />
+            <stop offset="1" stopColor="#F87171" />
+          </linearGradient>
+        </defs>
+
+        {/* track */}
+        <path d={arcPath} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="12" strokeLinecap="round" />
         {/* filled portion */}
-        <div
-          className="absolute inset-y-0 left-0 rounded-full"
-          style={{
-            width: `${val}%`,
-            background: "linear-gradient(90deg, #34D399, #FBBF24, #F87171)",
-          }}
+        <path
+          d={arcPath}
+          fill="none"
+          stroke="url(#risk-arc)"
+          strokeWidth="12"
+          strokeLinecap="round"
+          pathLength={100}
+          strokeDasharray={`${clamped} 100`}
         />
         {/* marker */}
-        <div
-          className="absolute top-1/2 h-4 w-1 -translate-y-1/2 rounded-full"
-          style={{ left: `calc(${val}% - 2px)`, background: color, boxShadow: `0 0 8px ${color}` }}
-        />
-      </div>
+        <circle cx={mx} cy={my} r="7" fill="#0A0E1A" stroke={color} strokeWidth="3" />
 
-      <div className="mt-1.5 flex justify-between text-[10px] uppercase tracking-wide text-slate-600">
+        {/* center readout */}
+        <text x={cx} y={cy - 22} textAnchor="middle" fontSize="34" fontWeight="700" fill={color} fontFamily="var(--font-mono)">
+          {Math.round(val)}
+        </text>
+        <text x={cx} y={cy - 4} textAnchor="middle" fontSize="10" fill="#64748B" letterSpacing="1.5">
+          / 100 RISK
+        </text>
+      </svg>
+
+      <div className="mt-1 flex w-full max-w-[240px] justify-between px-1 text-[10px] uppercase tracking-wide text-slate-600">
         <span>Safe</span>
         <span>Caution</span>
         <span>Scam</span>

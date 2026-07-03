@@ -29,28 +29,35 @@ export function VerdictPanel({
     >
       <div className="mx-auto max-w-3xl">
         {/* verdict header */}
-        <motion.div variants={riseIn} className="card p-6 sm:p-8">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <motion.div variants={riseIn} className="card-grad relative overflow-hidden p-6 sm:p-8">
+          {/* verdict-tinted ambient glow */}
+          <div
+            className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full opacity-70 blur-3xl"
+            style={{ background: `radial-gradient(circle, ${v.tint}, transparent 65%)` }}
+          />
+
+          <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-start gap-4">
               <div
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
-                style={{ background: v.tint, color: v.color }}
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ring-1"
+                style={{ background: v.tint, color: v.color, boxShadow: `inset 0 0 0 1px ${v.color}33` }}
               >
                 {safe ? <ShieldCheck size={26} /> : <AlertTriangle size={26} />}
               </div>
               <div>
-                <div className="text-2xl font-semibold" style={{ color: v.color }}>
+                <span className="eyebrow">Verdict</span>
+                <div className="mt-1 font-display text-2xl font-semibold" style={{ color: v.color }}>
                   {v.label}
                 </div>
                 <p className="mt-0.5 text-sm text-slate-400">{v.blurb}</p>
               </div>
             </div>
-            <div className="w-full sm:w-64">
+            <div className="w-full sm:w-auto">
               <RiskMeter score={receipt.riskScore} verdict={receipt.verdict} />
             </div>
           </div>
 
-          <p className="mt-6 border-t border-line-soft pt-5 text-[15px] leading-relaxed text-slate-300">
+          <p className="relative mt-6 border-t border-line-soft pt-5 text-[15px] leading-relaxed text-slate-300">
             {receipt.explanation}
           </p>
         </motion.div>
@@ -87,10 +94,7 @@ export function VerdictPanel({
 
         {/* reset */}
         <motion.div variants={riseIn} className="mt-8 flex justify-center">
-          <button
-            onClick={onReset}
-            className="inline-flex h-11 items-center gap-2 rounded-full border border-line bg-white/[0.04] px-5 text-sm font-medium text-slate-200 transition-colors hover:border-line-strong hover:text-white"
-          >
+          <button onClick={onReset} className="btn-ghost h-11 rounded-full px-5">
             <RotateCcw size={16} />
             Investigate another
           </button>

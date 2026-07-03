@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Search, CornerDownLeft, ShieldCheck, Coins, FileCheck2 } from "lucide-react";
 import { EXAMPLES } from "@/lib/demo";
-import { SwarmCanvas } from "./SwarmCanvas";
 import { riseIn, stagger } from "@/lib/motion";
 
 interface Props {
@@ -27,10 +26,10 @@ export function Hero({ onScan }: Props) {
   };
 
   return (
-    <section id="tool" className="relative container-x pt-12 sm:pt-16 lg:pt-20">
-      <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-        {/* ── Left: copy + paste tool ── */}
-        <motion.div variants={stagger} initial="hidden" animate="show" className="max-w-xl">
+    <section id="tool" className="relative container-x pt-12 sm:pt-16 lg:pt-24">
+      <div className="mx-auto flex flex-col items-center text-center">
+        {/* Copy + paste tool, centered */}
+        <motion.div variants={stagger} initial="hidden" animate="show" className="w-full max-w-2xl">
           <motion.span variants={riseIn} className="eyebrow">
             <span className="h-1.5 w-1.5 rounded-full bg-brand-spectrum" />
             The immune system for the agent economy
@@ -46,7 +45,7 @@ export function Hero({ onScan }: Props) {
 
           <motion.p
             variants={riseIn}
-            className="mt-5 max-w-lg text-pretty text-base leading-relaxed text-slate-400 sm:text-lg"
+            className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-slate-400 sm:text-lg"
           >
             Paste a token, an offer, a link, or a contract. Pirton hires and pays a
             team of specialist agents on Base to investigate — then returns a
@@ -85,7 +84,7 @@ export function Hero({ onScan }: Props) {
             </div>
 
             {/* Example chips */}
-            <div className="mt-4 flex flex-wrap items-center gap-2">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
               <span className="text-xs text-slate-500">Try:</span>
               {EXAMPLES.map((ex) => (
                 <button
@@ -101,7 +100,7 @@ export function Hero({ onScan }: Props) {
           </motion.div>
 
           {/* Trust row */}
-          <motion.div variants={riseIn} className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+          <motion.div variants={riseIn} className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3">
             {TRUST.map((t) => (
               <div key={t.label} className="inline-flex items-center gap-2 text-[13px] text-slate-400">
                 <t.icon size={15} className="text-brand-300" />
@@ -109,34 +108,6 @@ export function Hero({ onScan }: Props) {
               </div>
             ))}
           </motion.div>
-        </motion.div>
-
-        {/* ── Right: live swarm ── */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-          className="relative order-first lg:order-none"
-        >
-          <div className="card relative aspect-square w-full overflow-hidden sm:aspect-[4/3] lg:aspect-square">
-            {/* soft interior glow */}
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "radial-gradient(circle at 50% 45%, rgba(124,58,237,0.16), transparent 62%)",
-              }}
-            />
-            <SwarmCanvas />
-            {/* legend */}
-            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[10px] text-slate-500">
-              <span className="inline-flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 animate-twinkle rounded-full bg-signal-400" />
-                Live swarm · orchestrator + 4 specialists
-              </span>
-              <span className="mono hidden sm:inline">CAP · Base</span>
-            </div>
-          </div>
         </motion.div>
       </div>
     </section>

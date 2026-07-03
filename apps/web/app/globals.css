@@ -18,20 +18,23 @@ body {
 }
 
 @layer components {
-  /* Translucent panel floating over the galaxy — the app's elevation
-     primitive. A faint gradient hairline gives it a lit, premium edge. */
+  /* Translucent panel floating over the navy galaxy — the app's elevation
+     primitive. A blue-tinted glass fill keeps it clearly visible while a faint
+     gradient hairline gives it a lit, premium edge. */
   .card {
-    @apply relative rounded-2xl border border-line bg-white/[0.035] shadow-card;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    @apply relative rounded-2xl border border-line shadow-card;
+    background: linear-gradient(180deg, rgba(46,78,160,0.22), rgba(30,52,120,0.16));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
 
   /* A card whose border is a subtle brand-spectrum gradient. Uses a masked
      pseudo-element so the fill stays glassy while only the 1px edge glows. */
   .card-grad {
-    @apply relative rounded-2xl bg-white/[0.035] shadow-card;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    @apply relative rounded-2xl shadow-card;
+    background: linear-gradient(180deg, rgba(46,78,160,0.22), rgba(30,52,120,0.16));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
   .card-grad::before {
     content: "";

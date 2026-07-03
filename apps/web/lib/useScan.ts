@@ -117,7 +117,7 @@ export function useScan() {
   const [state, dispatch] = useReducer(reducer, initial);
   const esRef = useRef<EventSource | null>(null);
 
-  const start = useCallback((input: string, mode: "demo" | "live" = "demo") => {
+  const start = useCallback((input: string, mode: "demo" | "live" = "live") => {
     esRef.current?.close();
     dispatch({ t: "start", input });
 
