@@ -1,51 +1,58 @@
-"use client";
-
-import { motion } from "framer-motion";
-
-/** Pirton shield mark — a small animated crest used in the header + verdict. */
-export function ShieldMark({ size = 28 }: { size?: number }) {
+/** Brand shield mark with the spectrum gradient. Static, no animation. */
+export function ShieldMark({ size = 24 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden>
-      <defs>
-        <linearGradient id="pir-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#38E1FF" />
-          <stop offset="100%" stopColor="#2DD4BF" />
-        </linearGradient>
-      </defs>
-      <motion.path
-        d="M16 2.5 5 6.5v8.2C5 22.5 16 29 16 29s11-6.5 11-14.3V6.5L16 2.5Z"
-        stroke="url(#pir-grad)"
-        strokeWidth={1.7}
-        fill="rgba(56,225,255,0.06)"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 1, ease: "easeInOut" }}
+    <span
+      className="relative inline-flex items-center justify-center rounded-xl"
+      style={{ width: size + 12, height: size + 12 }}
+    >
+      {/* gradient hairline frame */}
+      <span
+        className="absolute inset-0 rounded-xl opacity-90"
+        style={{
+          padding: 1,
+          background:
+            "linear-gradient(140deg, rgba(129,140,248,0.9), rgba(167,139,250,0.4), rgba(34,211,238,0.8))",
+          WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+          WebkitMaskComposite: "xor",
+          maskComposite: "exclude",
+        }}
       />
-      <motion.path
-        d="M11 16.2 14.5 20 21 12.5"
-        stroke="url(#pir-grad)"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+      <span
+        className="absolute inset-[1px] rounded-[11px]"
+        style={{ background: "radial-gradient(circle at 50% 20%, rgba(124,58,237,0.28), rgba(10,14,26,0.9))" }}
       />
-    </svg>
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden className="relative">
+        <defs>
+          <linearGradient id="pirton-shield" x1="4" y1="3" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#C7D2FE" />
+            <stop offset="0.5" stopColor="#A78BFA" />
+            <stop offset="1" stopColor="#67E8F9" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M12 3 5 5.4v5.1C5 15.6 12 20 12 20s7-4.4 7-9.5V5.4L12 3Z"
+          stroke="url(#pirton-shield)"
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+          fill="rgba(129,140,248,0.12)"
+        />
+        <path
+          d="m8.8 11.8 2.3 2.4 4.1-5"
+          stroke="url(#pirton-shield)"
+          strokeWidth="1.9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </span>
   );
 }
 
 export function Wordmark() {
   return (
-    <div className="flex items-center gap-2.5">
-      <ShieldMark />
-      <span className="text-lg font-semibold tracking-tight text-white">
-        Pirton
-      </span>
-      <span className="hidden rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest text-slate-400 sm:inline">
-        Living Security Console
-      </span>
-    </div>
+    <span className="flex items-center gap-2.5">
+      <ShieldMark size={20} />
+      <span className="font-display text-[17px] font-semibold tracking-tight text-white">Pirton</span>
+    </span>
   );
 }

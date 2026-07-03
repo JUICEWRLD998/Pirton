@@ -1,18 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ShieldCheck, AlertTriangle, RotateCcw } from "lucide-react";
 import type { TrustReceipt } from "@/lib/types";
 import { VERDICT_META, SPECIALISTS } from "@/lib/agents";
-import { RiskGauge } from "./RiskGauge";
+import { RiskMeter } from "./RiskMeter";
 import { FindingRow } from "./FindingRow";
 import { TrustReceiptCard } from "./TrustReceiptCard";
-import { spring, riseIn, stagger } from "@/lib/motion";
+import { stagger, riseIn } from "@/lib/motion";
 
-/**
- * Screen 3 — "The Verdict + Trust Receipt". Animated gauge counts up to the
- * fused score, the plain-language explanation lands, each agent's findings
- * expand, then the Trust Receipt reveals.
- */
+/** Screen 3 — verdict + evidence + Trust Receipt. */
 export function VerdictPanel({
   receipt,
   onReset,
@@ -21,152 +18,84 @@ export function VerdictPanel({
   onReset: () => void;
 }) {
   const v = VERDICT_META[receipt.verdict];
+  const safe = receipt.verdict === "safe";
 
   return (
-    <motion.div
+    <motion.section
       variants={stagger}
       initial="hidden"
       animate="show"
-      className="mx-auto w-full max-w-3xl px-5 pb-24"
+      className="container-x pb-24 pt-10 sm:pt-14"
     >
-      {/* Verdict headline + gauge */}
-      <motion.div
-        variants={riseIn}
-        className="glass glass-accent relative overflow-hidden rounded-xl3 p-6 text-center"
-      >
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-40 opacity-40"
-          style={{
-            background: `radial-gradient(ellipse at 50% 0%, ${v.accent}33, transparent 70%)`,
-          }}
-        />
-        <VerdictBadge verdict={receipt.verdict} />
-
-        <div className="mt-4 flex justify-center">
-          <RiskGauge score={receipt.riskScore} verdict={receipt.verdict} />
-        </div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1 }}
-          className="mx-auto mt-2 max-w-xl text-pretty text-[15px] leading-relaxed text-slate-300"
-        >
-          {receipt.explanation}
-        </motion.p>
-      </motion.div>
-
-      {/* Per-agent evidence */}
-      <motion.div variants={riseIn} className="mt-6 space-y-4">
-        {receipt.entries.map((e) => {
-          const meta = SPECIALISTS[e.specialist];
-          return (
-            <div key={e.specialist} className="glass rounded-xl2 p-4">
-              <div className="mb-2.5 flex items-center gap-2.5">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d={meta.icon} stroke={meta.hue} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span className="text-sm font-semibold text-white">{meta.name}</span>
-                <span className="font-mono text-[11px] text-slate-500">
-                  confidence {(e.result.confidence * 100).toFixed(0)}%
-                </span>
+      <div className="mx-auto max-w-3xl">
+        {/* verdict header */}
+        <motion.div variants={riseIn} className="card p-6 sm:p-8">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4">
+              <div
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
+                style={{ background: v.tint, color: v.color }}
+              >
+                {safe ? <ShieldCheck size={26} /> : <AlertTriangle size={26} />}
               </div>
-              <div className="space-y-1.5">
-                {e.result.findings.map((f) => (
-                  <FindingRow key={f.code} finding={f} />
-                ))}
+              <div>
+                <div className="text-2xl font-semibold" style={{ color: v.color }}>
+                  {v.label}
+                </div>
+                <p className="mt-0.5 text-sm text-slate-400">{v.blurb}</p>
               </div>
             </div>
-          );
-        })}
-      </motion.div>
+            <div className="w-full sm:w-64">
+              <RiskMeter score={receipt.riskScore} verdict={receipt.verdict} />
+            </div>
+          </div>
 
-      {/* Trust Receipt */}
-      <motion.div variants={riseIn} className="mt-6">
-        <TrustReceiptCard receipt={receipt} />
-      </motion.div>
+          <p className="mt-6 border-t border-line-soft pt-5 text-[15px] leading-relaxed text-slate-300">
+            {receipt.explanation}
+          </p>
+        </motion.div>
 
-      {/* Reset */}
-      <motion.div variants={riseIn} className="mt-8 flex justify-center">
-        <motion.button
-          onClick={onReset}
-          whileHover={{ scale: 1.04, y: -1 }}
-          whileTap={{ scale: 0.97 }}
-          transition={spring}
-          className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-slate-200 transition hover:border-cyan-glow/40 hover:text-white"
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-            <path d="M3 12a9 9 0 1 0 3-6.7L3 8m0-5v5h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          Investigate another
-        </motion.button>
-      </motion.div>
-    </motion.div>
-  );
-}
+        {/* per-agent evidence */}
+        <motion.div variants={riseIn} className="mt-6 space-y-4">
+          {receipt.entries.map((e) => {
+            const meta = SPECIALISTS[e.specialist];
+            return (
+              <div key={e.specialist} className="card p-4 sm:p-5">
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500/15 font-mono text-[11px] font-semibold text-brand-300 ring-1 ring-brand-400/30">
+                    {meta.monogram}
+                  </div>
+                  <span className="text-sm font-semibold text-white">{meta.name}</span>
+                  <span className="ml-auto font-mono text-[11px] text-slate-500">
+                    confidence {(e.result.confidence * 100).toFixed(0)}%
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {e.result.findings.map((f) => (
+                    <FindingRow key={f.code} finding={f} />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </motion.div>
 
-function VerdictBadge({ verdict }: { verdict: TrustReceipt["verdict"] }) {
-  const v = VERDICT_META[verdict];
-  const safe = verdict === "safe";
-  return (
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ ...spring, delay: 0.05 }}
-      className="inline-flex flex-col items-center"
-    >
-      {/* Animated crest flourish */}
-      <div className="relative mb-2 flex h-14 w-14 items-center justify-center">
-        <motion.span
-          className="absolute inset-0 rounded-2xl"
-          style={{ boxShadow: `0 0 0 2px ${v.accent}` }}
-          initial={{ scale: 0.6, opacity: 0.8 }}
-          animate={{ scale: 1.5, opacity: 0 }}
-          transition={{ duration: 1.4, repeat: Infinity, ease: "easeOut" }}
-        />
-        <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
-          <motion.path
-            d="M16 2.5 5 6.5v8.2C5 22.5 16 29 16 29s11-6.5 11-14.3V6.5L16 2.5Z"
-            stroke={v.accent}
-            strokeWidth={1.8}
-            fill={`${v.accent}18`}
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 0.9, delay: 0.1 }}
-          />
-          {safe ? (
-            <motion.path
-              d="M11 16.2 14.5 20 21 12.5"
-              stroke={v.accent}
-              strokeWidth={2.4}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-            />
-          ) : (
-            <motion.path
-              d="M16 10v7M16 21h.01"
-              stroke={v.accent}
-              strokeWidth={2.6}
-              strokeLinecap="round"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.7 }}
-            />
-          )}
-        </svg>
+        {/* Trust Receipt */}
+        <motion.div variants={riseIn} className="mt-6">
+          <TrustReceiptCard receipt={receipt} />
+        </motion.div>
+
+        {/* reset */}
+        <motion.div variants={riseIn} className="mt-8 flex justify-center">
+          <button
+            onClick={onReset}
+            className="inline-flex h-11 items-center gap-2 rounded-full border border-line bg-white/[0.04] px-5 text-sm font-medium text-slate-200 transition-colors hover:border-line-strong hover:text-white"
+          >
+            <RotateCcw size={16} />
+            Investigate another
+          </button>
+        </motion.div>
       </div>
-
-      <span
-        className="text-hero font-semibold"
-        style={{ color: v.accent }}
-      >
-        {v.label}
-      </span>
-      <span className="mt-1 text-sm text-slate-400">{v.blurb}</span>
-    </motion.div>
+    </motion.section>
   );
 }

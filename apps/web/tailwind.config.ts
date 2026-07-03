@@ -1,9 +1,11 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Pirton — "Living Security Console" design system.
- * Deep near-black base, glassmorphic elevation, one accent that shifts with
- * verdict state (emerald = safe → amber = caution → red = danger).
+ * Pirton design system — "Living Security Console".
+ * Deep-space near-black base with a LIVING brand spectrum (indigo → violet →
+ * cyan) instead of one flat accent: gradient headlines, aurora glows, and
+ * gradient-hairline glass. Cyan is the "signal" accent (motion, live state).
+ * Semantic green/amber/red are reserved for the risk verdict only.
  */
 const config: Config = {
   content: [
@@ -14,91 +16,110 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Base — near-black, layered (not pure black).
-        ink: {
-          950: "#05060A",
-          900: "#080A11",
-          800: "#0C0F18",
-          700: "#131826",
-          600: "#1B2233",
-          500: "#273047",
+        // Deep-space backgrounds.
+        bg: {
+          DEFAULT: "#05070E", // page
+          raised: "#0A0E1A", // solid fallback panels
+          soft: "#0C1020",
         },
-        // Verdict accents.
-        safe: {
-          DEFAULT: "#2DD4BF", // teal-emerald
-          soft: "#5EEAD4",
-          deep: "#0D9488",
+        line: {
+          DEFAULT: "rgba(255,255,255,0.09)",
+          soft: "rgba(255,255,255,0.06)",
+          strong: "rgba(255,255,255,0.14)",
         },
-        caution: {
-          DEFAULT: "#F5B14C",
-          soft: "#FCD34D",
-          deep: "#B45309",
+        // Brand spectrum — indigo core.
+        brand: {
+          200: "#C7D2FE",
+          300: "#A5B4FC",
+          400: "#818CF8",
+          500: "#6366F1",
+          600: "#4F46E5",
+          700: "#4338CA",
         },
-        danger: {
-          DEFAULT: "#F4523B",
-          soft: "#FB7185",
-          deep: "#B91C1C",
+        // Violet — the mid of the spectrum (gradients, glows).
+        violet: {
+          300: "#C4B5FD",
+          400: "#A78BFA",
+          500: "#8B5CF6",
+          600: "#7C3AED",
         },
-        cyan: {
-          glow: "#38E1FF",
+        // Cyan — the "signal" accent: live/active/motion states.
+        signal: {
+          300: "#67E8F9",
+          400: "#22D3EE",
+          500: "#06B6D4",
+          glow: "rgba(34,211,238,0.35)",
         },
+        // Verdict / semantic — used ONLY on results (brighter for dark).
+        safe: { DEFAULT: "#34D399", tint: "rgba(52,211,153,0.12)", ring: "rgba(52,211,153,0.35)" },
+        caution: { DEFAULT: "#FBBF24", tint: "rgba(251,191,36,0.12)", ring: "rgba(251,191,36,0.35)" },
+        danger: { DEFAULT: "#F87171", tint: "rgba(248,113,113,0.12)", ring: "rgba(248,113,113,0.4)" },
       },
       fontFamily: {
+        // Space Grotesk for display/headings — distinctive, futuristic.
+        display: ["var(--font-display)", "var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       fontSize: {
-        display: ["clamp(2.5rem, 1.8rem + 3.4vw, 5rem)", { lineHeight: "1.02", letterSpacing: "-0.03em" }],
-        hero: ["clamp(1.9rem, 1.4rem + 2.4vw, 3.4rem)", { lineHeight: "1.05", letterSpacing: "-0.025em" }],
+        display: ["clamp(2.5rem, 1.5rem + 4vw, 5rem)", { lineHeight: "0.98", letterSpacing: "-0.035em" }],
+        hero: ["clamp(1.75rem, 1.2rem + 2.4vw, 3rem)", { lineHeight: "1.05", letterSpacing: "-0.025em" }],
+        step: ["clamp(2.5rem, 1.8rem + 3vw, 3.75rem)", { lineHeight: "1", letterSpacing: "-0.02em" }],
       },
       borderRadius: {
-        xl2: "1.25rem",
-        xl3: "1.75rem",
+        xl: "0.75rem",
+        "2xl": "1rem",
+        "3xl": "1.5rem",
       },
       boxShadow: {
-        glass: "0 8px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)",
-        glow: "0 0 0 1px rgba(56,225,255,0.25), 0 0 40px rgba(56,225,255,0.18)",
-        lift: "0 24px 60px -20px rgba(0,0,0,0.7)",
+        card: "0 1px 0 rgba(255,255,255,0.05) inset, 0 12px 40px -12px rgba(0,0,0,0.7)",
+        lift: "0 30px 80px -28px rgba(0,0,0,0.85)",
+        glow: "0 10px 40px -10px rgba(99,102,241,0.55)",
+        "glow-lg": "0 20px 70px -18px rgba(99,102,241,0.55)",
+        signal: "0 10px 40px -12px rgba(34,211,238,0.5)",
+        focus: "0 0 0 3px rgba(129,140,248,0.35)",
       },
       backgroundImage: {
+        "brand-spectrum": "linear-gradient(120deg, #818CF8 0%, #A78BFA 45%, #22D3EE 100%)",
+        "brand-spectrum-soft":
+          "linear-gradient(120deg, rgba(129,140,248,0.9), rgba(167,139,250,0.9), rgba(34,211,238,0.9))",
         "grid-faint":
-          "linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px)",
+          "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
+      },
+      maxWidth: {
+        content: "48rem",
       },
       keyframes: {
-        aurora: {
-          "0%, 100%": { transform: "translate3d(0,0,0) rotate(0deg) scale(1)" },
-          "33%": { transform: "translate3d(4%, -3%, 0) rotate(8deg) scale(1.15)" },
-          "66%": { transform: "translate3d(-4%, 3%, 0) rotate(-6deg) scale(1.05)" },
+        "fade-up": {
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
-        "beam-flow": {
-          "0%": { strokeDashoffset: "24" },
-          "100%": { strokeDashoffset: "0" },
+        twinkle: {
+          "0%, 100%": { opacity: "0.35" },
+          "50%": { opacity: "1" },
         },
-        "pulse-ring": {
-          "0%": { transform: "scale(0.9)", opacity: "0.7" },
-          "70%": { transform: "scale(1.6)", opacity: "0" },
-          "100%": { opacity: "0" },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
         },
-        shimmer: {
-          "0%": { backgroundPosition: "-200% 0" },
-          "100%": { backgroundPosition: "200% 0" },
+        "gradient-pan": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
         },
         "spin-slow": {
           to: { transform: "rotate(360deg)" },
         },
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-6px)" },
+        shimmer: {
+          "100%": { transform: "translateX(100%)" },
         },
       },
       animation: {
-        aurora: "aurora 22s ease-in-out infinite",
-        "aurora-slow": "aurora 34s ease-in-out infinite",
-        "beam-flow": "beam-flow 0.9s linear infinite",
-        "pulse-ring": "pulse-ring 2.2s cubic-bezier(0.4,0,0.6,1) infinite",
-        shimmer: "shimmer 2.4s linear infinite",
-        "spin-slow": "spin-slow 12s linear infinite",
+        "fade-up": "fade-up 0.5s cubic-bezier(0.16,1,0.3,1) both",
+        twinkle: "twinkle 4s ease-in-out infinite",
         float: "float 6s ease-in-out infinite",
+        "gradient-pan": "gradient-pan 8s ease infinite",
+        "spin-slow": "spin-slow 24s linear infinite",
+        shimmer: "shimmer 2.5s infinite",
       },
     },
   },

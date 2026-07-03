@@ -1,5 +1,19 @@
 # Phase 3 — Next.js UI + Trust Receipt
 
+> **UI revamp (latest):** the interface was rebuilt from the ground up as a
+> clean, professional **product page** — a real landing (sticky header · hero
+> with the paste tool · "how it works" 01/02/03 · the 4 agents · trust band ·
+> footer) that flows into the live scan → verdict → Trust Receipt. Theme is a
+> modern **dark "deep space"** look with a performant animated **galaxy**
+> starfield (`components/Galaxy.tsx`, canvas + reduced-motion fallback), one
+> indigo brand accent, monogram agent avatars, minimal `lucide-react` icons,
+> and mobile-first responsiveness. Semantic green/amber/red appear only on the
+> verdict. The data layer (SSE contract, `useScan`, `demo`, `route`) is
+> unchanged — this was a presentation rebuild. Design tokens live in
+> `tailwind.config.ts` + `app/globals.css`.
+
+
+
 Goal (implementation.md §3 / §2.7): the live **hiring board** driven by WS/SSE
 events and the signed **Trust Receipt** card with tx links — the "Living
 Security Console." This is the surface that carries the 5-minute video.

@@ -3,119 +3,148 @@
 @tailwind utilities;
 
 :root {
-  /* Verdict-driven accent — remapped at runtime on the console root. */
-  --accent: 45 225 255; /* cyan idle */
-  --accent-soft: 94 234 212;
-  --duration-normal: 260ms;
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  color-scheme: dark;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
-  color-scheme: dark;
   scroll-behavior: smooth;
 }
 
 body {
-  @apply bg-ink-950 text-slate-200 antialiased;
-  background-image:
-    radial-gradient(1200px 700px at 50% -10%, rgba(56, 225, 255, 0.08), transparent 60%),
-    radial-gradient(900px 600px at 85% 20%, rgba(45, 212, 191, 0.06), transparent 55%);
+  @apply bg-bg text-slate-300 antialiased;
   min-height: 100vh;
   font-feature-settings: "cv11", "ss01";
 }
 
-/* Verdict theming: set data-verdict on the console root to remap the accent. */
-[data-verdict="safe"] {
-  --accent: 45 212 191;
-  --accent-soft: 94 234 212;
-}
-[data-verdict="caution"] {
-  --accent: 245 177 76;
-  --accent-soft: 252 211 77;
-}
-[data-verdict="likely_scam"] {
-  --accent: 244 82 59;
-  --accent-soft: 251 113 133;
-}
-
 @layer components {
-  .glass {
-    background: linear-gradient(
-      160deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 255, 255, 0.02) 45%,
-      rgba(255, 255, 255, 0.008)
-    );
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  /* Translucent panel floating over the galaxy — the app's elevation
+     primitive. A faint gradient hairline gives it a lit, premium edge. */
+  .card {
+    @apply relative rounded-2xl border border-line bg-white/[0.035] shadow-card;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
-  .glass-accent {
-    border-color: rgb(var(--accent) / 0.35);
-    box-shadow: 0 0 0 1px rgb(var(--accent) / 0.18), 0 0 44px rgb(var(--accent) / 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* A card whose border is a subtle brand-spectrum gradient. Uses a masked
+     pseudo-element so the fill stays glassy while only the 1px edge glows. */
+  .card-grad {
+    @apply relative rounded-2xl bg-white/[0.035] shadow-card;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
-  .accent-text {
-    color: rgb(var(--accent));
-  }
-  .mono {
-    @apply font-mono tracking-tight;
-  }
-  /* Animated conic border used on active agent cards. */
-  .border-beam {
-    position: relative;
-  }
-  .border-beam::before {
+  .card-grad::before {
     content: "";
     position: absolute;
-    inset: -1px;
+    inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: conic-gradient(
-      from var(--angle, 0deg),
-      transparent 0%,
-      rgb(var(--accent) / 0.9) 12%,
-      transparent 28%
+    background: linear-gradient(
+      140deg,
+      rgba(129, 140, 248, 0.55),
+      rgba(167, 139, 250, 0.18) 40%,
+      rgba(255, 255, 255, 0.04) 60%,
+      rgba(34, 211, 238, 0.4)
     );
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     mask-composite: exclude;
-    animation: border-spin 3s linear infinite;
+    pointer-events: none;
+    opacity: 0.7;
+    transition: opacity 0.3s var(--ease-out);
+  }
+  .card-grad:hover::before {
+    opacity: 1;
+  }
+
+  .mono {
+    @apply font-mono tracking-tight;
+  }
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+
+  /* Section eyebrow — small uppercase label with a gradient dot. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white/[0.04] px-3 py-1 text-xs font-medium text-slate-300;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Gradient-filled text — the signature headline treatment. */
+  .text-spectrum {
+    background: linear-gradient(115deg, #c7d2fe 0%, #a78bfa 45%, #67e8f9 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Primary CTA — spectrum gradient with a soft glow. */
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold text-white transition-all duration-200;
+    background: linear-gradient(120deg, #6366f1, #7c3aed 55%, #06b6d4);
+    box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.55);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 14px 50px -10px rgba(124, 58, 237, 0.6);
+    filter: brightness(1.06);
+  }
+  .btn-primary:active {
+    transform: translateY(1px);
+  }
+
+  /* Ghost/secondary button. */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-white/[0.04] px-5 text-sm font-medium text-slate-200 transition-colors duration-200 hover:border-line-strong hover:bg-white/[0.06] hover:text-white;
   }
 }
 
-@property --angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-@keyframes border-spin {
-  to {
-    --angle: 360deg;
+@layer utilities {
+  /* Animated gradient text — used sparingly on the wordmark. */
+  .text-spectrum-anim {
+    background-size: 200% auto;
+  }
+  /* Faint blueprint grid overlay for section backgrounds. */
+  .bg-grid {
+    background-image: theme("backgroundImage.grid-faint");
+    background-size: 64px 64px;
   }
 }
 
-/* Custom scrollbar for the console feel. */
+/* Accessible focus ring. */
+:focus-visible {
+  outline: 2px solid #818cf8;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Quiet dark scrollbar. */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 999px;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   background-clip: content-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.22);
   background-clip: content-box;
 }
-
-:focus-visible {
-  outline: 2px solid rgb(var(--accent));
-  outline-offset: 3px;
-  border-radius: 6px;
+::selection {
+  background: rgba(129, 140, 248, 0.3);
+  color: #fff;
 }
 
 @media (prefers-reduced-motion: reduce) {
